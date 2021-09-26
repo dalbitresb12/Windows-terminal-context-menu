@@ -14,7 +14,7 @@ $psCoreIcoFileName = "powershell-core.ico"
 $azureCoreIcoFileName = "azure.ico"
 $unknownIcoFileName = "unknown.ico"
 $menuRegID = "WindowsTerminal"
-$contextMenuLabel = "Open Windows Terminal here"
+$contextMenuLabel = "Open in Windows Terminal"
 $contextMenuRegPath = "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\shell\$menuRegID"
 $contextBGMenuRegPath = "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\$menuRegID"
 $subMenuRegRelativePath = "Directory\ContextMenus\$menuRegID"
@@ -141,8 +141,8 @@ $profiles | ForEach-Object {
         }
         $labelAdmin_f = "$label_f (Admin)"
         
-        $command_f = "`"$env:LOCALAPPDATA\Microsoft\WindowsApps\wt.exe`" -p `"$profileName`" -d `"%V\.`""
-        $commandAdmin_f = "powershell -WindowStyle hidden -Command `"Start-Process powershell -WindowStyle hidden -Verb RunAs -ArgumentList `"`"`"`"-Command $env:LOCALAPPDATA\Microsoft\WindowsApps\wt.exe -p '$profileName' -d '%V\.'`"`"`"`""
+        $command_f = "`"$env:LOCALAPPDATA\Microsoft\WindowsApps\wt.exe`" -w 1 -p `"$profileName`" -d `"%V\.`""
+        $commandAdmin_f = "powershell -WindowStyle hidden -Command `"Start-Process powershell -WindowStyle hidden -Verb RunAs -ArgumentList `"`"`"`"-Command $env:LOCALAPPDATA\Microsoft\WindowsApps\wt.exe -w 1 -p '$profileName' -d '%V\.'`"`"`"`""
         
         if($configEntry.icon){
             $useFullPath = [System.IO.Path]::IsPathRooted($configEntry.icon);
