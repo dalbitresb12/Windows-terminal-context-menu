@@ -9,9 +9,11 @@ $resourcePath = "$env:LOCALAPPDATA\WindowsTerminalContextIcons\"
 $contextMenuIcoName = "terminal.ico"
 $cmdIcoFileName = "cmd.ico"
 $wslIcoFileName = "linux.ico"
+$ubuntuIcoFileName = "ubuntu.ico"
 $psIcoFileName = "powershell.ico"
 $psCoreIcoFileName = "powershell-core.ico"
 $azureCoreIcoFileName = "azure.ico"
+$gitBashIcoFileName = "git-bash.ico"
 $unknownIcoFileName = "unknown.ico"
 $menuRegID = "WindowsTerminal"
 $contextMenuLabel = "Open in Windows Terminal"
@@ -152,21 +154,35 @@ $profiles | ForEach-Object {
         elseif ($_.icon) {
             $icoPath = $_.icon
         }
-        elseif(($commandLine -match "^cmd\.exe\s?.*")) {
+        elseif(($commandLine -match "cmd\.exe\s?$")) {
             $icoPath = "$cmdIcoFileName"
         }
-        elseif (($commandLine -match "^powershell\.exe\s?.*")) {
+        elseif (($commandLine -match "powershell\.exe\s?$")) {
             $icoPath = "$psIcoFileName"
         }
         elseif ($source -eq "Windows.Terminal.Wsl") {
-            $icoPath = "$wslIcoFileName"
+            if ($profileName -like "Ubuntu") {
+                $icoPath = "$ubuntuIcoFileName"
+            } else {
+                $icoPath = "$wslIcoFileName"
+            }
         }
         elseif ($source -eq "Windows.Terminal.PowershellCore") {
             $icoPath = "$psCoreIcoFileName"
         }
         elseif ($source -eq "Windows.Terminal.Azure") {
             $icoPath = "$azureCoreIcoFileName"
-        }else{
+        }
+        elseif ($source -eq "Git") {
+            $icoPath = "$gitBashIcoFileName"
+        }
+        elseif ($source -eq "Windows.Terminal.VisualStudio" -And $profileName -match "Command Prompt") {
+            $icoPath = "$cmdIcoFileName"
+        }
+        elseif ($source -eq "Windows.Terminal.VisualStudio" -And $profileName -match "PowerShell") {
+            $icoPath = "$psIcoFileName"
+        }
+        else {
             # Unhandled Icon
             $icoPath = "$unknownIcoFileName"
             Write-Host "No icon found, using unknown.ico instead"
