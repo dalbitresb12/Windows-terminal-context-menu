@@ -151,7 +151,7 @@ $profiles | ForEach-Object {
             $tmpIconPath = $configEntry.icon;            
             $icoPath = If (!$useFullPath) {"$resourcePath$tmpIconPath"} Else { "$tmpIconPath" }
         }
-        elseif ($_.icon) {
+        elseif ($_.icon -And !($_.icon -like "http*")) {
             $icoPath = $_.icon
         }
         elseif(($commandLine -match "cmd\.exe\s?$")) {
@@ -189,7 +189,7 @@ $profiles | ForEach-Object {
         }
 
         if($icoPath -ne "") {
-            $iconPath_f = If ($configEntry.icon -or $_.icon) { "$icoPath" } Else { "$resourcePath$icoPath" }
+            $iconPath_f = If ($configEntry.icon -or ($_.icon -And !($_.icon -like "http*"))) { "$icoPath" } Else { "$resourcePath$icoPath" }
         }
 
         Write-Host "Add new entry $profileName => $subItemRegPath"
